@@ -21,7 +21,7 @@ opkg-key add simonsmh-dist.pub
 您可以从路由器上的 distfeeds 获取目标分支。
 ```
 # cat /etc/opkg/distfeeds.conf
-src/gz openwrt_core https://downloads.openwrt.org/releases/21.02.0/targets/x86/64/packages
+src/gz openwrt_core https://downloads.openwrt.org/releases/21.02.03/targets/x86/64/packages
 ...
 ```
 这意味着x86/64是您的目标，您现在将packages/ x86/64作为分支名称。
