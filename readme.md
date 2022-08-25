@@ -1,49 +1,39 @@
-# OpenWRT dist
-[![](https://github.com/simonsmh/openwrt-dist/workflows/Openwrt%20Build%20Bot/badge.svg)](https://github.com/simonsmh/openwrt-dist/actions)
+# OpenWRT 分区
 
-Build with GitHub Action Workflow daily.
+每天使用 GitHub Action Workflow 构建。
 
-This project is only for OpenWRT routers. Currently it's based on 2203.
+该项目仅适用于 OpenWRT 路由器。目前它基于2203。
 
-[You may want original project here.](http://openwrt-dist.sourceforge.net)
+您可能想要这里的[原始项目](http://openwrt-dist.sourceforge.net/)。
 
-## Openwrt Package Builder
+## Openwrt 包生成器
 
-### Usage
-#### Step 1
-First, Add the public key [simonsmh-dist.pub](./simonsmh-dist.pub) which is paired with private key [key-build](./key-build) for building.
-
+## 用法
+* 步骤1
+首先，添加与私钥key-build配对的公钥simonsmh-dist.pub进行构建。
 ```
 wget http://cdn.jsdelivr.net/gh/simonsmh/openwrt-dist@master/simonsmh-dist.pub
 opkg-key add simonsmh-dist.pub
 ```
-
-#### Step 2
-You can get target branch from distfeeds on your router.
-
+* 第2步
+您可以从路由器上的 distfeeds 获取目标分支。
 ```
 # cat /etc/opkg/distfeeds.conf
 src/gz openwrt_core https://downloads.openwrt.org/releases/21.02.0/targets/x86/64/packages
 ...
 ```
+这意味着x86/64是您的目标，您现在将packages/ x86/64作为分支名称。
 
-Here means _x86/64_ is your's target, you got **packages/_x86/64_** as **branch name** now.
-
-#### Step 3
-Search your branch name in the branches list and add the following line to `/etc/opkg/customfeeds.conf`.
-
+* 第 3 步
+在分支列表中搜索您的分支名称，然后将以下行添加到 `/etc/opkg/customfeeds.conf`.
 ```
 src/gz simonsmh http://cdn.jsdelivr.net/gh/simonsmh/openwrt-dist@{{$BRANCH_NAME}}
 ```
-
-For example, if you want to use `x86_64` packages and you got the branch name as `packages/x86/64`, You could use this line after the previous step.
-
+例如，如果您想使用x86_64包并且分支名称为packages/x86/64，则可以在上一步之后使用此行。
 ```
 src/gz simonsmh http://cdn.jsdelivr.net/gh/simonsmh/openwrt-dist@packages/x86/64
 ```
-
-Then install whatever you want.
-
+然后安装任何你想要的。
 ```
 opkg update
 opkg install ChinaDNS
@@ -59,21 +49,22 @@ opkg install luci-app-v2ray
 opkg install luci-app-vlmcsd
 ...
 ```
+有关更多详细信息，请查看清单。
 
-For more detail please check the manifest.
+您也可以在 LuCI 中搜索并安装它们，或者使用 SCP/SFTP 将这些下载的文件上传到您的路由器，然后登录到您的路由器并使用 opkg 安装这些 ipk 文件。
 
-You can also search and install them in LuCI or upload these downloaded files to your router with SCP/SFTP, then login to your router and use opkg to install these ipk files.
+## Openwrt 图像生成器
 
-## Openwrt Image Builder
+SDK 完成构建包后，使用 ImageBuilder 构建可配置的图像。图像存储在名为分支的设备中，例如image/generic.x86_64
 
-Build configurable images with ImageBuilder after the SDK finished building packages. The images are stored in the device named branches, like *image/generic.x86_64*
+[安装参考](https://github.com/simonsmh/openwrt-dist/blob/master/.github/workflows/main.yml)
 
-[Reference for installation](https://openwrt.org/docs/guide-user/installation/generic.sysupgrade)
+## 自己建造
 
-## Build it yourself
-[Check here](https://github.com/simonsmh/openwrt-dist/blob/master/.github/workflows/main.yml)
+[在这里检查](https://github.com/simonsmh/openwrt-dist/blob/master/.github/workflows/main.yml)
 
-You need to make a fork and chage items in the matrix yourself to match your needs. If you need to keep your packages safe, please use `usign` to regenerate private key and make the repo private.
+您需要自己在矩阵中创建一个 fork 和 chage 项目以满足您的需求。如果您需要确保您的包安全，请使用usign重新生成私钥并使 repo 私有。
 
-## License
+## 执照
+
 GPLv3
