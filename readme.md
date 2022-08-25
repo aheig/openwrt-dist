@@ -8,14 +8,16 @@
 
 ## Openwrt 包生成器
 
-## 用法
-* 步骤1
+**用法**
+* 第1步
+
 首先，添加与私钥key-build配对的公钥simonsmh-dist.pub进行构建。
 ```
 wget http://cdn.jsdelivr.net/gh/simonsmh/openwrt-dist@master/simonsmh-dist.pub
 opkg-key add simonsmh-dist.pub
 ```
 * 第2步
+
 您可以从路由器上的 distfeeds 获取目标分支。
 ```
 # cat /etc/opkg/distfeeds.conf
@@ -24,7 +26,8 @@ src/gz openwrt_core https://downloads.openwrt.org/releases/21.02.0/targets/x86/6
 ```
 这意味着x86/64是您的目标，您现在将packages/ x86/64作为分支名称。
 
-* 第 3 步
+* 第3步
+
 在分支列表中搜索您的分支名称，然后将以下行添加到 `/etc/opkg/customfeeds.conf`.
 ```
 src/gz simonsmh http://cdn.jsdelivr.net/gh/simonsmh/openwrt-dist@{{$BRANCH_NAME}}
@@ -33,7 +36,8 @@ src/gz simonsmh http://cdn.jsdelivr.net/gh/simonsmh/openwrt-dist@{{$BRANCH_NAME}
 ```
 src/gz simonsmh http://cdn.jsdelivr.net/gh/simonsmh/openwrt-dist@packages/x86/64
 ```
-然后安装任何你想要的。
+* 然后安装任何你想要的。
+
 ```
 opkg update
 opkg install ChinaDNS
